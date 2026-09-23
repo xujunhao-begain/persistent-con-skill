@@ -1,0 +1,28 @@
+{
+  "_comment": "复制为 config.local.json 后填写真实值。config.local.json 被 .gitignore 忽略、不随技能分发。",
+
+  "host": "your-server.example.com",
+  "user": "yourname",
+  "port": 22,
+
+  "_password_hint": "可选：登录密码。填写则 connect.sh 自动完成登录（密码会明文存在本地配置文件里，请确保该文件权限受限、不提交）。留空或不填则会话停在密码提示上，由用户当场提供、经 send.sh 发入（密码不落盘）。",
+  "password": "",
+
+  "_ready_prompt_hint": "可选：登录成功的判据——会话日志中出现该正则即判定登录成功。例如 shell 提示符 '\\$\\s*$' 或主机名标记。不配则按「发出密码后 login_wait 秒内无失败签名」判定成功（用 screen.sh 复核更稳妥）。",
+  "ready_prompt": "",
+
+  "_login_wait_hint": "可选：未配 ready_prompt 时，发出密码后等多少秒无失败即判定成功。默认 10。",
+  "login_wait": 10,
+
+  "_ssh_opts_hint": "可选：额外 ssh -o 选项（字符串或数组），插在登录命令中、可覆盖默认。一般留空即可——技能默认已注入 PubkeyAuthentication=no / PreferredAuthentications=password,keyboard-interactive / NumberOfPasswordPrompts=1 / StrictHostKeyChecking=accept-new。仅当你需要另行指定选项时才设。",
+  "ssh_opts": [],
+
+  "_risk_policy_hint": "可选：远端操作风险闸门策略（send.sh 发送前强制走 risk_check.py 分级）。不配则用内置默认规则，已覆盖常见红线。enabled=false 会**整体关闭闸门**，强烈不建议。protected_paths: 本环境里视同系统目录的业务路径（如 /data、/opt/app），被整体 rm 时按 BLOCK 处理。block_patterns / confirm_patterns: 追加本环境特有的红线 / 需确认规则（正则）。allow_patterns: 对已知安全、但被规则误伤的写法做豁免（正则，整条命令匹配即放行——请写得足够窄）。",
+  "risk_policy": {
+    "enabled": true,
+    "protected_paths": [],
+    "block_patterns": [],
+    "confirm_patterns": [],
+    "allow_patterns": []
+  }
+}
